@@ -6,6 +6,7 @@ loader: taskgraph.loader.transform:loader
 
 transforms:
     - taskgraph.transforms.from_deps
+    - ffios_taskgraph.transforms.relpro_push
     - ffios_taskgraph.transforms.bitrise
     - taskgraph.transforms.task
 
@@ -17,16 +18,19 @@ tasks:
       description: Start push workflow
       from-deps:
         group-by:
-          attribute: release-type
+          attribute: build-type
         unique-kinds: false
         copy-attributes: true
         with-attributes:
-          release-type:
-            - beta
-            - release
+          build-type:
+            - Firefox
+            - FirefoxBeta
       run-on-tasks-for: []
       treeherder:
-        symbol: P
+        symbol:
+          by-build-type:
+            FirefoxBeta: Pb
+            Firefox: P
         tier: 1
         platform: ios/opt
       worker-type: bitrise
