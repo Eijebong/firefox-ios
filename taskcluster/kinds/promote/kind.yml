@@ -11,7 +11,7 @@ transforms:
 
 
 tasks:
-    build:
+    release:
       description: Start a release build
       run-on-tasks-for: []
       treeherder:
@@ -25,4 +25,23 @@ tasks:
         artifact_prefix: public
         workflows:
           - release_promotion_promote:
-              - API_BITRISE_SCHEME: "<release-type-scheme>"
+              - API_BITRISE_SCHEME: Firefox
+      attributes:
+        build-type: release
+    beta:
+      description: Start a beta build
+      run-on-tasks-for: []
+      treeherder:
+        symbol: Bb
+        kind: build
+        tier: 1
+        platform: ios/opt
+      worker-type: bitrise
+      shipping-phase: promote
+      bitrise:
+        artifact_prefix: public
+        workflows:
+          - release_promotion_promote:
+              - API_BITRISE_SCHEME: FirefoxBeta
+      attributes:
+        build-type: beta

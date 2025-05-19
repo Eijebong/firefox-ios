@@ -7,6 +7,7 @@ loader: taskgraph.loader.transform:loader
 transforms:
     - taskgraph.transforms.from_deps
     - ffios_taskgraph.transforms.bitrise
+    - ffios_taskgraph.transforms.relpro_push
     - taskgraph.transforms.task
 
 kind-dependencies:
@@ -17,16 +18,19 @@ tasks:
       description: Start push workflow
       from-deps:
         group-by:
-          attribute: release-type
+          attribute: build-type
         unique-kinds: false
         copy-attributes: true
         with-attributes:
-          release-type:
+          build-type:
             - beta
             - release
       run-on-tasks-for: []
       treeherder:
-        symbol: P
+        symbol:
+          by-build-type:
+            release: P
+            beta: Pb
         tier: 1
         platform: ios/opt
       worker-type: bitrise
